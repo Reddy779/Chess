@@ -1,0 +1,11 @@
+# Ignore dependencies
+backend-1/node_modules/
+frontend/node_modules/
+
+# Ignore build outputs
+backend-1/dist/
+frontend/dist/
+
+# Ignore environment and logs
+*.env
+*.log
