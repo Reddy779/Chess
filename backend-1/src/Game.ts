@@ -3,12 +3,12 @@ import { Chess } from "chess.js";
 import { WebSocket } from "ws";
 import { GAME_OVER, INIT_GAME, MOVE } from "./messages";
 
-export class Game{
+export class Game {
   public player1: WebSocket;
   public player2: WebSocket;
   public board: Chess
   private startTime: Date;
-  private moveCount= 0;
+  private moveCount = 0;
 
   constructor(player1: WebSocket, player2: WebSocket) {
     this.player1 = player1;
@@ -34,18 +34,18 @@ export class Game{
     to: string;
   }) {
     // validate the type of move using zod
-    if (this.moveCount % 2 === 0 && socket != this.player1) {
+    if (this.moveCount % 2 === 0 && socket !== this.player1) {
       return
     }
-    if (this.moveCount % 2 === 1 && socket != this.player2) {
-      return
+    if (this.moveCount % 2 === 1 && socket !== this.player2) {
+      return;
     }
 
     try {
       this.board.move(move);
-    } catch(e) {
+    } catch (e) {
       console.log(e);
-        return;
+      return;
     }
 
     if (this.board.isGameOver()) {
@@ -65,11 +65,9 @@ export class Game{
       return;
     }
 
-    // check if the game is over
-
     if (this.moveCount % 2 === 0) {
       this.player2.send(JSON.stringify({
-        type:MOVE,
+        type: MOVE,
         payload: move
       }))
     } else {
@@ -79,7 +77,5 @@ export class Game{
       }))
     }
     this.moveCount++;
-
-
   }
 }
